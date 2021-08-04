@@ -114,6 +114,4 @@ public class DisciplineDao extends DbConnection{
             throwables.printStackTrace();
         }
     }
-
-
 }
