@@ -67,28 +67,12 @@ public class DisciplineDao extends DbConnection{
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()){
                 teachers.add(new Teacher(resultSet.getLong(1), resultSet.getString(2),
-                        resultSet.getString(3),resultSet.getString(4),
-                        getAllDisciplinesByTeacherId(resultSet.getLong(1))));
+                        resultSet.getString(3),resultSet.getString(4)));
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         return teachers;
-    }
-
-    public List<Discipline> getAllDisciplinesByTeacherId(long id) {
-        List<Discipline> disciplines = new ArrayList<>();
-        try (PreparedStatement statement = connection.prepareStatement("SELECT td.d_id, disciplines.name FROM td, disciplines WHERE td.t_id = ? and td.d_id = disciplines.id")) {
-            statement.setLong(1, id);
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                disciplines.add(new Discipline(resultSet.getLong(1), resultSet.getString(2),
-                        getAllTeachersByDisciplineId(resultSet.getLong(1))));
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return disciplines;
     }
 
     public boolean existByName(String name){
