@@ -92,29 +92,12 @@ public class TeacherDao extends DbConnection {
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                disciplines.add(new Discipline(resultSet.getLong(1), resultSet.getString(2),
-                        getAllTeachersByDisciplineId(resultSet.getLong(1))));
+                disciplines.add(new Discipline(resultSet.getLong(1), resultSet.getString(2)));
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         return disciplines;
-    }
-
-    public List<Teacher> getAllTeachersByDisciplineId(long id) {
-        List<Teacher> teachers = new ArrayList<>();
-        try (PreparedStatement statement = connection.prepareStatement("SELECT td.t_id, t.name, t.username, t.password FROM td, teachers as t WHERE td.d_id = ? and td.t_id = t.id")) {
-            statement.setLong(1, id);
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                teachers.add(new Teacher(resultSet.getLong(1), resultSet.getString(2),
-                        resultSet.getString(3), resultSet.getString(4),
-                        getAllDisciplinesByTeacherId(resultSet.getLong(1))));
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return teachers;
     }
 
     public void deleteById(long id) {
